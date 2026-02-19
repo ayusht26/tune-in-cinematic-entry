@@ -34,16 +34,22 @@ const Navbar = () => {
       >
         <Link
           to="/about"
-          className="text-muted-foreground text-sm font-medium tracking-wider uppercase hover:text-foreground transition-colors duration-300"
+          className="group relative px-6 py-2 rounded-full border border-primary/60 text-foreground text-sm font-medium tracking-wider uppercase overflow-hidden transition-all duration-300 hover:glow-purple-subtle hover:border-primary"
         >
-          About
+          <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
+          <span className="relative z-10 group-hover:text-primary-foreground transition-colors duration-300">
+            About
+          </span>
         </Link>
-        <button className="group relative px-6 py-2 rounded-full border border-primary/60 text-foreground text-sm font-medium tracking-wider uppercase overflow-hidden transition-all duration-300 hover:glow-purple-subtle hover:border-primary">
+        <Link
+          to="/login"
+          className="group relative px-6 py-2 rounded-full border border-primary/60 text-foreground text-sm font-medium tracking-wider uppercase overflow-hidden transition-all duration-300 hover:glow-purple-subtle hover:border-primary"
+        >
           <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
           <span className="relative z-10 group-hover:text-primary-foreground transition-colors duration-300">
             Login
           </span>
-        </button>
+        </Link>
       </motion.div>
     </motion.nav>
   );
