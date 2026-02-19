@@ -4,6 +4,7 @@ import MovieGrid from "@/components/MovieGrid";
 import FeaturesSection from "@/components/FeaturesSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
+import InteractiveBackground from "@/components/InteractiveBackground";
 import { useLenis } from "@/hooks/useLenis";
 
 const Index = () => {
@@ -11,6 +12,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <InteractiveBackground />
       <Navbar />
       <HeroSection />
       <MovieGrid />

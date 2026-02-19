@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
@@ -49,13 +50,38 @@ const About = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {founders.map((founder, index) => (
+            {founders.map((founder, index) => {
+              const cardRef = useRef<HTMLDivElement>(null);
+              const [transform, setTransform] = useState("perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)");
+
+              const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+                const card = cardRef.current;
+                if (!card) return;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                setTransform(`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`);
+              };
+
+              const handleMouseLeave = () => {
+                setTransform("perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)");
+              };
+
+              return (
               <motion.div
                 key={founder.name}
+                ref={cardRef}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: index * 0.15 }}
-                className="group relative p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm text-center hover:border-primary/40 transition-all duration-500"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{ transform, transition: "transform 0.2s ease-out" }}
+                className="group relative p-8 rounded-2xl border border-border bg-card/50 backdrop-blur-sm text-center hover:border-primary/40 hover:shadow-[0_0_30px_hsl(263_70%_58%/0.15)] cursor-pointer"
               >
                 <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors duration-300">
                   <founder.icon className="w-8 h-8 text-primary" />
@@ -64,7 +90,8 @@ const About = () => {
                 <span className="text-primary text-sm font-medium tracking-wider uppercase">{founder.role}</span>
                 <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{founder.description}</p>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
