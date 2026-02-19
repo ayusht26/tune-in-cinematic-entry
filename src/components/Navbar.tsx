@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { scrollY } = useScroll();
@@ -29,7 +30,14 @@ const Navbar = () => {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        className="flex items-center gap-6"
       >
+        <Link
+          to="/about"
+          className="text-muted-foreground text-sm font-medium tracking-wider uppercase hover:text-foreground transition-colors duration-300"
+        >
+          About
+        </Link>
         <button className="group relative px-6 py-2 rounded-full border border-primary/60 text-foreground text-sm font-medium tracking-wider uppercase overflow-hidden transition-all duration-300 hover:glow-purple-subtle hover:border-primary">
           <span className="absolute inset-0 bg-primary origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out" />
           <span className="relative z-10 group-hover:text-primary-foreground transition-colors duration-300">

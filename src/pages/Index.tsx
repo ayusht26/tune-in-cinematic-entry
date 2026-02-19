@@ -1,6 +1,9 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import MovieGrid from "@/components/MovieGrid";
+import FeaturesSection from "@/components/FeaturesSection";
+import CTASection from "@/components/CTASection";
+import Footer from "@/components/Footer";
 import { useLenis } from "@/hooks/useLenis";
 
 const Index = () => {
@@ -11,7 +14,9 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <MovieGrid />
-      <div className="h-32" />
+      <FeaturesSection />
+      <CTASection />
+      <Footer />
     </div>
   );
 };

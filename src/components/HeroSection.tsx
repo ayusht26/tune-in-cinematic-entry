@@ -31,7 +31,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-[12vw] md:text-[8vw] font-bold tracking-cinematic text-foreground text-glow leading-none"
+          className="text-[12vw] md:text-[8vw] font-bold tracking-cinematic text-foreground text-glow leading-none font-display"
         >
           TUNE-IN
         </motion.h1>
@@ -42,7 +42,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="mt-6 text-muted-foreground text-sm md:text-base tracking-wider uppercase"
         >
-          Stream the extraordinary
+          Share what you do. Discover what others love.
         </motion.p>
       </motion.div>
     </div>
