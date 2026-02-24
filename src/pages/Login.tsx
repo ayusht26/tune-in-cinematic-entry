@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -107,19 +106,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async () => {
-    setGoogleLoading(true);
-    try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + "/login",
-      });
-      if (result.error) {
-        toast.error(String(result.error));
-      }
-    } catch (err: any) {
-      toast.error(err.message || "Google sign-in failed");
-    } finally {
-      setGoogleLoading(false);
-    }
+    toast.info("Google sign-in coming soon!");
   };
 
   return (
