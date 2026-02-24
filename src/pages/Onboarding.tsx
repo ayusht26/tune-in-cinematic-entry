@@ -17,6 +17,7 @@ const Onboarding = () => {
   const { user, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const usernameCheckRequestRef = useRef(0);
 
   const [step, setStep] = useState(0);
   const [username, setUsername] = useState("");
@@ -29,22 +30,40 @@ const Onboarding = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const checkUsername = async (value: string) => {
-    if (value.length < 3) {
+    const normalized = value.trim();
+
+    if (normalized.length < 3) {
       setUsernameError("Username must be at least 3 characters");
       return;
     }
-    if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+
+    if (!/^[a-zA-Z0-9_]+$/.test(normalized)) {
       setUsernameError("Only letters, numbers, and underscores");
       return;
     }
+
+    const requestId = ++usernameCheckRequestRef.current;
     setCheckingUsername(true);
-    const { data } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", value)
-      .maybeSingle();
-    setCheckingUsername(false);
-    setUsernameError(data ? "Username already taken" : "");
+
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("username", normalized)
+        .maybeSingle();
+
+      if (requestId !== usernameCheckRequestRef.current) return;
+      if (error) throw error;
+
+      setUsernameError(data ? "Username already taken" : "");
+    } catch {
+      if (requestId !== usernameCheckRequestRef.current) return;
+      setUsernameError("Unable to check username. Try again.");
+    } finally {
+      if (requestId === usernameCheckRequestRef.current) {
+        setCheckingUsername(false);
+      }
+    }
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,6 +149,10 @@ const Onboarding = () => {
             const v = e.target.value;
             setUsername(v);
             setUsernameError("");
+
+            usernameCheckRequestRef.current += 1;
+            setCheckingUsername(false);
+
             if (v.length >= 3) checkUsername(v);
           }}
           placeholder="your_username"
